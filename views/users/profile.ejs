@@ -1,0 +1,206 @@
+<% layout("/listings/layouts/boilerplate") %>
+
+<style>
+/* PROFILE HEADER ANIMATIONS & STYLING */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-container {
+    animation: slideUp 0.6s ease-out forwards;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+.profile-header-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 2rem;
+    padding: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 4rem;
+}
+
+/* Decorative Glow inside header */
+.profile-header-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 150%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.avatar-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 130px;
+    height: 130px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.02));
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+
+.avatar-wrapper i {
+    font-size: 4.5rem;
+    color: white;
+}
+
+.profile-info {
+    z-index: 1;
+}
+
+.profile-info h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3.8rem;
+    font-style: italic;
+    font-weight: normal;
+    margin: 0;
+    color: white;
+    letter-spacing: 2px;
+}
+
+.profile-info p {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.listings-header {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.listings-header::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(255,255,255,0.2), transparent);
+}
+
+.empty-state {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.empty-state a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    padding-bottom: 2px;
+    transition: opacity 0.3s;
+}
+
+.empty-state a:hover {
+    opacity: 0.7;
+}
+
+/* Enhancing existing listing cards for profile */
+.profile-listing-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 1.2rem;
+    padding: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 0 !important;
+}
+.profile-listing-card .card-img-top {
+    border-radius: 1rem !important;
+}
+</style>
+
+<div class="container profile-container">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            
+            <!-- Profile Header -->
+            <div class="profile-header-card">
+                <div class="avatar-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h3><%= userProfile.username %></h3>
+                    <p><i class="fa-solid fa-envelope"></i> <%= userProfile.email %></p>
+                </div>
+            </div>
+
+            <!-- Listings Section -->
+            <h4 class="listings-header"><i class="fa-solid fa-map-location-dot" style="font-size: 1.8rem;"></i> My Properties</h4>
+            
+            <% if (userListings.length > 0) { %>
+                <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+                    <% for(let listing of userListings){ %>
+                        <a href="/listings/<%= listing._id %>" class="listing-link">
+                            <div class="card h-100 listing-card profile-listing-card">
+                                <img 
+                                    src="<%= typeof listing.image === 'string' ? listing.image : (listing.image?.url || 'https://via.placeholder.com/300') %>" 
+                                    class="card-img-top" 
+                                    alt="listing_image" 
+                                    style="height: 14rem; object-fit: cover;"
+                                >
+                                <div class="card-img-overlay"></div>
+                                <div class="card-body px-2 pb-1">
+                                    <p class="card-text">
+                                        <b style="font-size: 1.1rem; display: block; margin-bottom: 0.3rem;"><%= listing.title %></b>
+                                        <span style="color: rgba(255,255,255,0.7);"><i class="fa-solid fa-indian-rupee-sign" style="font-size:0.9rem"></i> <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / night</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="fa-regular fa-compass"></i>
+                    <h5>No listings yet</h5>
+                    <p>You haven't added any properties to your profile. <br><a href="/listings/new">Create your first listing now!</a></p>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>

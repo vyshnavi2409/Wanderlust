@@ -1,0 +1,226 @@
+<% layout("/listings/layouts/boilerplate") %>
+
+<style>
+.background_wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    padding: 3rem 1rem;
+}
+
+.form_wrapper {
+    z-index: 999;
+    position: relative;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: white;
+    border-radius: 1.5rem;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 3.5rem 4rem;
+    width: 100%;
+    max-width: 750px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.form_wrapper .title {
+    display: block;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 3.5rem;
+    color: white;
+    font-family: 'Instrument Serif', serif;
+    letter-spacing: 1px;
+}
+
+.form_content_box {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 1.2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 2.5rem;
+    position: relative;
+    transition: border-color 0.3s;
+}
+.form_content_box:focus-within {
+    border-bottom: 2px solid white;
+}
+
+.form_content_box > i {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 1.2rem;
+}
+
+.form_content_box-input {
+    position: relative;
+    width: 100%;
+}
+
+.form__input {
+    width: 100%;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1.1rem;
+    font-family: 'Barlow', sans-serif;
+}
+textarea.form__input {
+    resize: vertical;
+    min-height: 3rem;
+}
+
+.form__label {
+    position: absolute;
+    left: 0;
+    top: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.form__input:focus ~ .form__label,
+.form__input:not(:placeholder-shown) ~ .form__label {
+    top: -0.2rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Static fields like File Upload & Select */
+.static-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.8rem;
+    display: block;
+}
+.static-input {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: white;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+}
+.static-input:focus {
+    border-color: white;
+}
+
+.button__submit {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 3rem;
+    background: white;
+    color: black;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+    margin-top: 2rem;
+}
+.button__submit:hover {
+    background: rgba(255,255,255,0.8);
+    transform: translateY(-2px);
+}
+
+/* Grid Layout for Price and Country */
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2.5rem;
+}
+@media (max-width: 768px) {
+    .form-row-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .form_wrapper {
+        padding: 2.5rem 2rem;
+    }
+}
+</style>
+
+<div class="background_wrapper">
+    <div class="form_wrapper">
+        <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+            <h1 class="title">Create a new listing</h1>
+            
+            <div class="form_content_box">
+                <i class="fa-solid fa-heading"></i>
+                <div class="form_content_box-input">
+                    <input name="listing[title]" type="text" placeholder=" " class="form__input" required>
+                    <label class="form__label">Add a catchy title</label>
+                    <div class="invalid-feedback" style="position: absolute; bottom: -20px;">Please enter a title</div>
+                </div>
+            </div>
+
+            <div class="form_content_box">
+                <i class="fa-solid fa-align-left"></i>
+                <div class="form_content_box-input">
+                    <textarea name="listing[description]" placeholder=" " class="form__input" rows="3" required></textarea>
+                    <label class="form__label">Enter description</label>
+                    <div class="invalid-feedback" style="position: absolute; bottom: -20px;">Please enter a description</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 2.5rem;">
+                <label class="static-label"><i class="fa-solid fa-image"></i> Upload Listing Image</label>
+                <input name="listing[image]" type="file" class="static-input">
+            </div>
+
+            <div class="form-row-2">
+                <div class="form_content_box">
+                    <i class="fa-solid fa-tag"></i>
+                    <div class="form_content_box-input">
+                        <input name="listing[price]" type="number" placeholder=" " class="form__input" required>
+                        <label class="form__label">Price (&#8377;)</label>
+                        <div class="invalid-feedback" style="position: absolute; bottom: -20px;">Valid price needed</div>
+                    </div>
+                </div>
+
+                <div class="form_content_box">
+                    <i class="fa-solid fa-globe"></i>
+                    <div class="form_content_box-input">
+                        <input name="listing[country]" type="text" placeholder=" " class="form__input" required>
+                        <label class="form__label">Country</label>
+                        <div class="invalid-feedback" style="position: absolute; bottom: -20px;">Valid country needed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form_content_box">
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="form_content_box-input">
+                    <input name="listing[location]" type="text" placeholder=" " class="form__input" required>
+                    <label class="form__label">Location (e.g. Andhra Pradesh)</label>
+                    <div class="invalid-feedback" style="position: absolute; bottom: -20px;">Valid location needed</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label class="static-label"><i class="fa-solid fa-list"></i> Category</label>
+                <select name="listing[category]" class="static-input form-select" style="background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <option value="Trending" style="color: black;">Trending</option>
+                    <option value="Rooms" style="color: black;">Rooms</option>
+                    <option value="Iconic Cities" style="color: black;">Iconic Cities</option>
+                    <option value="Mountains" style="color: black;">Mountains</option>
+                    <option value="Castles" style="color: black;">Castles</option>
+                    <option value="Amazing Pools" style="color: black;">Amazing Pools</option>
+                    <option value="Camping" style="color: black;">Camping</option>
+                    <option value="Farms" style="color: black;">Farms</option>
+                    <option value="Arctic" style="color: black;">Arctic</option>
+                </select>
+            </div>
+
+            <button class="button__submit">Add New Listing</button>
+        </form>
+    </div>
+</div>

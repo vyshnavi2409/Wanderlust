@@ -1,0 +1,243 @@
+<% layout("/listings/layouts/boilerplate") %>
+
+<style>
+/* BACKGROUND-IMAGE WRAPPER */
+.background_wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+/* LOGIN-FORM */
+.login_form_wrapper {
+    z-index: 999;
+    position: relative;
+    background-color: hsla(0, 0%, 10%, 0.1);
+    border: 2px solid hsl(0, 0%, 90%);
+    color: hsla(0, 0%, 100%, 0.897);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2.5rem 2rem 3.5rem;
+    width: 26.25rem;
+    margin: 2rem auto;
+}
+
+/* TITLE */
+.login_form_wrapper .title {
+    display: block;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: hsl(0, 0%, 90%);
+    letter-spacing: 1px;
+}
+
+/* CONTENT BOX */
+.login_content_box {
+    display: flex;
+    align-items: center;
+    column-gap: 0.75rem;
+    border-bottom: 2px solid hsla(0, 0%, 100%, 0.7);
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.login_content_box i {
+    font-size: 1.25rem;
+    color: hsla(0, 0%, 100%, 0.7);
+}
+
+.login_content_box-input {
+    position: relative;
+    width: 100%;
+}
+
+.login__input {
+    width: 100%;
+    padding-block: 0.8rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ANIMATED FLOATING LABEL */
+.login__label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsla(0, 0%, 100%, 0.7);
+    font-size: 1rem;
+    font-weight: 500;
+    pointer-events: none;
+    transition: top 0.3s, font-size 0.3s;
+}
+
+.login__input:focus ~ .login__label,
+.login__input:not(:placeholder-shown) ~ .login__label {
+    top: -0.25rem;
+    font-size: 0.75rem;
+}
+
+/* EYE ICON */
+.password__hidden {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: hsla(0, 0%, 100%, 0.7);
+    font-size: 1.25rem;
+}
+
+/* REMEMBER LOGIN */
+.remember_login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.remember_login_content {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
+}
+
+.remember_login_input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: white;
+    cursor: pointer;
+}
+
+.remember_login_label, .forget__login {
+    font-size: 0.875rem;
+    color: hsla(0, 0%, 100%, 0.8);
+    cursor: pointer;
+}
+
+.forget__login {
+    text-decoration: none;
+}
+.forget__login:hover {
+    text-decoration: underline;
+}
+
+/* BUTTON */
+.button__login {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+    margin-bottom: 1.5rem;
+}
+.button__login:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* REGISTER LOGIN */
+.register__login {
+    text-align: center;
+    font-size: 0.875rem;
+    color: hsla(0, 0%, 100%, 0.8);
+}
+.register__login a {
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+}
+.register__login a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="background_wrapper">
+    <div class="login_form_wrapper">
+        <form action="/login" method="POST" class="login__form needs-validation" novalidate>
+            <h1 class="title">Login</h1>
+            
+            <div class="login_form_content">
+                <div class="login_content_box">
+                    <i class="fa-regular fa-user"></i>
+                    <div class="login_content_box-input">
+                        <input
+                            type="text"
+                            placeholder=" "
+                            class="login__input email--input"
+                            id="username"
+                            name="username"
+                            required
+                        />
+                        <label for="username" class="login__label">Username</label>
+                    </div>
+                </div>
+                
+                <div class="login_content_box">
+                    <i class="fa-solid fa-lock"></i>
+                    <div class="login_content_box-input">
+                        <input
+                            type="password"
+                            placeholder=" "
+                            class="login__input password--input"
+                            id="password"
+                            name="password"
+                            required
+                        />
+                        <label for="password" class="login__label">Password</label>
+                        <i class="fa-regular fa-eye password__hidden" id="password_hidden"></i>
+                    </div>
+                </div>
+
+                <div class="remember_login">
+                    <div class="remember_login_content">
+                        <input type="checkbox" class="remember_login_input" id="remember" />
+                        <label for="remember" class="remember_login_label">Remember me</label>
+                    </div>
+                    <a href="#" class="forget__login">Forget password?</a>
+                </div>
+                
+                <button class="button__login">Login</button>
+                
+                <p class="register__login text--sm">
+                    Don't have an account ? <a href="/signup">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    /* PASSWORD EYE ICON EVENTLISTENER */
+    const Password_input = document.querySelector(".password--input");
+    const Password_eye_icon = document.querySelector("#password_hidden");
+    
+    if(Password_eye_icon && Password_input) {
+        Password_eye_icon.addEventListener("click", () => {
+            if (Password_input.type === "password") {
+                Password_input.type = "text";
+                Password_eye_icon.classList.remove("fa-eye");
+                Password_eye_icon.classList.add("fa-eye-slash");
+            } else {
+                Password_input.type = "password";
+                Password_eye_icon.classList.remove("fa-eye-slash");
+                Password_eye_icon.classList.add("fa-eye");
+            }
+        });
+    }
+</script>

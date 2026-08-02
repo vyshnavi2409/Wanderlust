@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wanderlust - Discover the World's Most Extraordinary Homes</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Cinematic Video Background */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      transform: translateX(-50%);
+      z-index: -2;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    /* Liquid Glass Aesthetic */
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .liquid-glass-strong {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .liquid-glass-strong:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Navbar */
+    .custom-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 40px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 2rem;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      padding-bottom: 5px;
+    }
+    
+    .nav-logo:hover {
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      padding: 6px 6px 6px 20px;
+      border-radius: 50px;
+      gap: 20px;
+    }
+    
+    .nav-links a.nav-item {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: opacity 0.3s;
+    }
+    
+    .nav-links a.nav-item:hover {
+      opacity: 0.7;
+    }
+
+    .btn-claim {
+      background: white;
+      color: black;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-left: 10px;
+    }
+
+    /* Main Hero Layout */
+    .hero-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 20px 40px;
+      z-index: 1;
+    }
+
+    .badge-chip {
+      border-radius: 50px;
+      padding: 4px 14px 4px 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .badge-new {
+      background: white;
+      color: black;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .heading-text {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 5.5rem;
+      line-height: 0.85;
+      margin-bottom: 25px;
+      max-width: 800px;
+      letter-spacing: -2px;
+    }
+
+    @media (max-width: 768px) {
+      .heading-text { font-size: 3.5rem; }
+    }
+
+    .subheading {
+      font-weight: 300;
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin-bottom: 35px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.5;
+    }
+
+    .cta-group {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .btn-primary-glass {
+      border-radius: 50px;
+      padding: 12px 28px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary-text {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.3s;
+    }
+    
+    .btn-secondary-text:hover {
+      opacity: 0.7;
+      color: white;
+    }
+
+    /* Stats Cards */
+    .stats-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      width: 220px;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .stat-icon {
+      width: 28px;
+      height: 28px;
+      margin-bottom: 30px;
+    }
+
+    .stat-number {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Partners Section */
+    .partners-section {
+      width: 100%;
+      padding-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .partners-badge {
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .partners-logos {
+      display: flex;
+      gap: 40px;
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: rgba(255, 255, 255, 0.9);
+      align-items: center;
+    }
+
+    .dot {
+      font-size: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .show-anim {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.3s; }
+    .delay-3 { transition-delay: 0.5s; }
+    .delay-4 { transition-delay: 0.7s; }
+    .delay-5 { transition-delay: 0.9s; }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video id="bgVideo" class="video-background" autoplay muted loop playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Navbar -->
+  <nav class="custom-nav">
+    <a href="/" class="nav-logo">w</a>
+    <div class="nav-links liquid-glass d-none d-md-flex">
+      <a href="/" class="nav-item">Home</a>
+      <a href="/listings" class="nav-item">Destinations</a>
+      <a href="/listings" class="nav-item">Experiences</a>
+      <a href="/listings" class="nav-item">Villas</a>
+      <a href="/listings" class="btn-claim">Find Stays <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i></a>
+    </div>
+    <div style="width: 48px;"></div>
+  </nav>
+
+  <!-- Hero Content -->
+  <div class="hero-section">
+
+    <h1 class="heading-text fade-up delay-1">Discover the world's most<br>extraordinary homes</h1>
+    
+    <p class="subheading fade-up delay-2">
+      Journey beyond the ordinary. Our pioneering collection of stays brings extraordinary global destinations within reach—secure, vetted, and unforgettable.
+    </p>
+    
+    <div class="cta-group fade-up delay-3">
+      <a href="/listings" class="btn-primary-glass liquid-glass-strong">
+        Start Your Voyage <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.85rem;"></i>
+      </a>
+      <a href="/listings" class="btn-secondary-text">
+        <i class="fa-solid fa-play" style="font-size: 0.8rem;"></i> Explore Destinations
+      </a>
+    </div>
+
+    <div class="stats-row fade-up delay-4">
+      <div class="stat-card liquid-glass">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div>
+          <div class="stat-number">4.9/5</div>
+          <div class="stat-label">Average Guest Rating</div>
+        </div>
+      </div>
+      <div class="stat-card liquid-glass">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <div>
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Countries Covered</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Partners -->
+  <div class="partners-section fade-up delay-5">
+    <div class="partners-badge liquid-glass">
+      Collaborating with luxury hosts globally
+    </div>
+    <div class="partners-logos">
+      <span>Aeon</span> <span class="dot">•</span>
+      <span>Vela</span> <span class="dot">•</span>
+      <span>Apex</span> <span class="dot">•</span>
+      <span>Orbit</span> <span class="dot">•</span>
+      <span>Zeno</span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Video Fade-In
+      const video = document.getElementById("bgVideo");
+      if (video.readyState >= 3) {
+        video.style.opacity = 1;
+      } else {
+        video.addEventListener("canplay", () => {
+          video.style.opacity = 1;
+        });
+      }
+
+      // Content Entrance Animations
+      setTimeout(() => {
+        const elements = document.querySelectorAll('.fade-up');
+        elements.forEach(el => el.classList.add("show-anim"));
+      }, 100);
+    });
+  </script>
+</body>
+</html>

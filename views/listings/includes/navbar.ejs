@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-dark liquid-glass sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/" style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 2rem; color: white; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; padding-bottom: 5px;">w</a>
+    <button class="navbar-toggler"
+     type="button" 
+     data-bs-toggle="collapse"
+     data-bs-target="#navbarNavAltMarkup" 
+     aria-controls="navbarNavAltMarkup"
+     >
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/listings">All listings</a>
+        <a class="nav-link" href="/listings/new">Add new listing</a>
+        
+      </div>
+      <div class="navbar-nav ms-auto align-items-center">
+        <!-- Search Bar -->
+        <form class="d-flex me-3" role="search" action="/listings" method="GET">
+          <input class="form-control me-2 rounded-pill px-4" type="search" placeholder="Search destinations" name="q" aria-label="Search">
+          <button class="btn btn-outline-light rounded-pill px-4" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+
+        <% if(!currUser) { %>
+        <a class="nav-link" href="/signup">Sign up</a>
+        <a class="nav-link" href="/login">Log In</a>
+        <% } %>
+        <% if(currUser) { %>
+        <a class="nav-link" href="/users/<%= currUser._id %>">My Profile</a>
+        <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
