@@ -28,8 +28,8 @@ Make sure you have [Node.js](https://nodejs.org/) and [MongoDB](https://www.mong
 
 1. **Clone the repository (or download the project folder):**
    ```bash
-   git clone <your-repository-url>
-   cd majorproject
+   git clone https://github.com/vyshnavi2409/Wanderlust.git
+   cd Wanderlust
    ```
 
 2. **Install dependencies:**
